@@ -1,10 +1,9 @@
 import { expect, request } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 import { randomRoomFeaturesCount } from "../Helpers/RoomFeaturesHelper";
-import Env  from "../Helpers/Env"
 import { createHeaders } from "./CreateHeaders";
 
-const url = Env.URL || "https://automationintesting.online/";
+const url = "https://automationintesting.online/";
 
 export async function createRandomRoomBody(roomName?: string, roomPrice?: number) {
   const roomType = ["Single", "Double", "Twin"];

@@ -1,9 +1,8 @@
 import { expect, request } from "@playwright/test";
 import { faker } from "@faker-js/faker";
-import Env  from "../Helpers/Env"
 import { createHeaders } from "./CreateHeaders";
 
-const url = Env.URL || "https://automationintesting.online/";
+const url = "https://automationintesting.online/";
 let bookingBody;
 let checkOutArray;
 

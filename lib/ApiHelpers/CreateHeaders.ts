@@ -1,8 +1,7 @@
 import { createCookies } from "./AuthHelper";
-import Env  from "../Helpers/Env"
 
-const username = Env.ADMIN_NAME;
-const password = Env.ADMIN_PASSWORD;
+const username = "admin";
+const password = "password";
 
 export async function createHeaders(token?: string) {
 

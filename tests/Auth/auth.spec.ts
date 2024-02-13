@@ -1,14 +1,14 @@
-import env from "../../lib/Helpers/Env";
 import { faker } from "@faker-js/faker";
 const { test, expect } = require('@playwright/test');
 
 test.describe("Authentication requests @auth", async () => {
-    const username = env.ADMIN_NAME;
-    const password = env.ADMIN_PASSWORD;
+    const username = "admin"
+    const password = "password"
+    const url = "https://automationintesting.online/";
 
     test("POST Login with valid credentials @happy", async ({ request }) => {
         const startTime = Date.now();
-        const response = await request.post(env.URL + 'auth/login' , {
+        const response = await request.post(url + 'auth/login' , {
             data : {
                 username : username,
                 password : password,
@@ -26,7 +26,7 @@ test.describe("Authentication requests @auth", async () => {
 
     test("POST Login with invalid credentials @unhappy", async ({ request }) => {
         const startTime = Date.now();
-        const response = await request.post(env.URL + 'auth/login' , {
+        const response = await request.post(url + 'auth/login' , {
             data : {
                 username : `${faker.string.alphanumeric(5)}`,
                 password : `${faker.string.alphanumeric(5)}`,
