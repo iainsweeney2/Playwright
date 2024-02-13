@@ -1,7 +1,7 @@
 const { test, expect } = require('@playwright/test');
 import { createRandomBookingBody, futureOpenCheckinDate } from '../../lib/ApiHelpers/BookingHelpers';
 import { createRoom } from '../../lib/ApiHelpers/RoomHelper';
-import { stringDateByDays } from '../../lib/Helpers/date';
+import { stringDateByDays } from '../../lib/helpers/date';
 
 test.describe('Booking requests @booking', async () => {
     let requestBody;
