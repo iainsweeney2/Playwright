@@ -1,7 +1,6 @@
-import Env from "../Helpers/Env";
 import { expect, request } from "@playwright/test";
 
-const url = Env.URL || "https://automationintesting.online/";
+const url = "https://automationintesting.online/";
 let cookies;
 
 export async function createCookies(username?: string, password?: string) {
