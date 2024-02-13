@@ -1,4 +1,41 @@
-import { defineConfig, devices } from '@playwright/test';
+import { defineConfig, devices, expect } from '@playwright/test';
+
+expect.extend({
+  toBeString(received: string) {
+    const check = typeof received == "string";
+      
+    if (check) {
+      return {
+        message: () => "passed",
+        pass: true,
+      };
+    } else {
+      return {
+        message: () =>
+          `toBeString() assertion failed.\nYou expected '${received}' to be a string but it's a ${typeof received}\n`,
+        pass: false,
+      };
+    }
+  },
+});
+
+ expect.extend({
+  toBeValidDate(received: any) {
+    const pass = Date.parse(received) && typeof received === "string" ? true : false;
+    if (pass) {
+      return {
+        message: () => "passed",
+        pass: true,
+      };
+    } else {
+      return {
+        message: () => `toBeValidDate() assertion failed.\nYou expected '${received}' to be a valid date.\n`,
+        pass: false,
+      };
+    }
+  },
+});
+
 
 /**
  * Read environment variables from file.
@@ -24,7 +61,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
+    baseURL: 'https://automationintesting.online/',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
