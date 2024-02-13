@@ -1,6 +1,6 @@
 import { expect, request } from "@playwright/test";
 import { faker } from "@faker-js/faker";
-import { randomRoomFeaturesCount } from "../helpers/RoomFeaturesHelper";
+import { randomRoomFeaturesCount } from "../Helpers/RoomFeaturesHelper";
 import Env  from "../Helpers/Env"
 import { createHeaders } from "./CreateHeaders";
 

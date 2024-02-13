@@ -1,4 +1,4 @@
-import Env  from "../Helpers/Env"
+import Env from "../Helpers/Env";
 import { expect, request } from "@playwright/test";
 
 const url = Env.URL || "https://automationintesting.online/";
