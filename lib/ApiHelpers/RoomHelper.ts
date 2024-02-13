@@ -1,6 +1,6 @@
 import { expect, request } from "@playwright/test";
 import { faker } from "@faker-js/faker";
-import { randomRoomFeaturesCount } from "../Helpers/RoomFeaturesHelper";
+import { randomRoomFeaturesCount } from "../helpers/RoomFeaturesHelper";
 import { createHeaders } from "./CreateHeaders";
 
 const url = "https://automationintesting.online/";
