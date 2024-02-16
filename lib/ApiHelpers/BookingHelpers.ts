@@ -1,6 +1,7 @@
 import { expect, request } from "@playwright/test";
 import { faker } from "@faker-js/faker";
 import { createHeaders } from "./CreateHeaders";
+import { stringDateByDays } from "../helpers/date";
 
 const url = "https://automationintesting.online/";
 let bookingBody;
@@ -30,11 +31,7 @@ export async function createFutureBooking(roomId: number) {
     const randBookingLength = faker.number.int({ min: 1, max: 4 });
 
     const checkInString = futureCheckinDate.toISOString().split("T")[0];
-    //const checkOutString = stringDateByDays(futureCheckinDate, randBookingLength);
-
-    // console.log("booking length: " + randBookingLength);
-    // console.log("checkin string: " + checkInString);
-    // console.log("checkout string: " + checkOutString);
+    const checkOutString = stringDateByDays(futureCheckinDate, randBookingLength);
 
     bookingBody = {
       roomid: roomId,
@@ -45,7 +42,7 @@ export async function createFutureBooking(roomId: number) {
       phone: faker.phone.number("###########"),
       bookingdates: {
         checkin: checkInString,
-        //checkout: checkOutString,
+        checkout: checkOutString,
       },
     };
 

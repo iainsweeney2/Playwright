@@ -1,14 +1,23 @@
-const { test, expect } = require('@playwright/test');
+import { test, expect } from "../../lib/fixtures/fixtures";
 import { createRandomBookingBody, futureOpenCheckinDate } from '../../lib/ApiHelpers/BookingHelpers';
+import { createInvalidHeaders, createHeaders } from '../../lib/ApiHelpers/CreateHeaders';
 import { createRoom } from '../../lib/ApiHelpers/RoomHelper';
 import { stringDateByDays } from '../../lib/helpers/date';
 
 test.describe('Booking requests @booking', async () => {
     let requestBody;
     let roomId;
+    let validHeaders;
+    let invalidHeaders;
+
+    test.beforeAll(async () => {
+        validHeaders = await createHeaders();
+        invalidHeaders = await createInvalidHeaders();
+    })
 
     test.beforeEach(async () => {
         const room = await createRoom();
+        const putRoom = await createRoom("Putroom", 99)
         roomId = room.roomid;
 
         const futureCheckinDate = await futureOpenCheckinDate(roomId);
@@ -94,4 +103,71 @@ test.describe('Booking requests @booking', async () => {
       expect(body.error).toBe("Internal Server Error");
       expect(body.path).toBe("/booking/summary");
     });
+
+    test("Get all bookings with details @happy", async ({ request }) => {
+      const response = await request.get("booking/", {
+        headers: validHeaders,
+      });
+  
+      expect(response.status()).toBe(200);
+  
+      const body = await response.json();
+      expect(body.bookings.length).toBeGreaterThanOrEqual(1);
+      expect(body.bookings[0].bookingid).toBe(1);
+      expect(body.bookings[0].roomid).toBe(1);
+      expect(body.bookings[0].firstname).toBe("James");
+      expect(body.bookings[0].lastname).toBe("Dean");
+      expect(body.bookings[0].depositpaid).toBe(true);
+      expect(body.bookings[0].bookingdates.checkin).toBeValidDate();
+      expect(body.bookings[0].bookingdates.checkout).toBeValidDate();
+    });
+
+    test("Get all bookings without authentication", async ({ request }) => {
+      const response = await request.get("booking/", {
+        headers: invalidHeaders,
+      });
+
+      expect(response.status()).toBe(403);
+      const body = await response.text();
+      expect(body).toBe("");
+    })
+
+    test("GET booking by id with details", async ({ request }) => {
+      const response = await request.get("booking/1", {
+        headers: validHeaders,
+      });
+  
+      expect(response.status()).toBe(200);
+  
+      const body = await response.json();
+      expect(body.bookingid).toBe(1);
+      expect(body.roomid).toBe(1);
+      expect(body.firstname).toBe("James");
+      expect(body.lastname).toBe("Dean");
+      expect(body.depositpaid).toBe(true);
+      expect(body.bookingdates.checkin).toBeValidDate();
+      expect(body.bookingdates.checkout).toBeValidDate();
+    });
+
+    test("GET booking by id that doesn't exist", async ({ request }) => {
+      const response = await request.get("booking/999999", {
+        headers: validHeaders,
+      });
+  
+      expect(response.status()).toBe(404);
+  
+      const body = await response.text();
+      expect(body).toBe("");
+    });
+  
+    test("GET booking by id without authentication", async ({ request }) => {
+      const response = await request.get("booking/1");
+  
+      expect(response.status()).toBe(403);
+  
+      const body = await response.text();
+      expect(body).toBe("");
+    });
+
+    test("")
 })

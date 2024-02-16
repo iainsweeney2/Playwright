@@ -1,42 +1,5 @@
 import { defineConfig, devices, expect } from '@playwright/test';
 
-expect.extend({
-  toBeString(received: string) {
-    const check = typeof received == "string";
-      
-    if (check) {
-      return {
-        message: () => "passed",
-        pass: true,
-      };
-    } else {
-      return {
-        message: () =>
-          `toBeString() assertion failed.\nYou expected '${received}' to be a string but it's a ${typeof received}\n`,
-        pass: false,
-      };
-    }
-  },
-});
-
- expect.extend({
-  toBeValidDate(received: any) {
-    const pass = Date.parse(received) && typeof received === "string" ? true : false;
-    if (pass) {
-      return {
-        message: () => "passed",
-        pass: true,
-      };
-    } else {
-      return {
-        message: () => `toBeValidDate() assertion failed.\nYou expected '${received}' to be a valid date.\n`,
-        pass: false,
-      };
-    }
-  },
-});
-
-
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
